@@ -190,7 +190,7 @@ export function BenchmarkTable({
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: colors.bg, color: colors.accent, border: `1px solid ${colors.border}` }}>
-                {type}
+                {type === "V2V" ? "STS" : type}
               </span>
               <span className="text-xs" style={{ color: "rgba(148,163,184,0.7)" }}>Industry Benchmarks</span>
             </div>
@@ -250,7 +250,7 @@ export function BenchmarkTable({
             <div className="px-5 py-3 flex items-center gap-2" style={{ borderBottom: "1px solid var(--border)" }}>
               <TrendingUp className="h-4 w-4" style={{ color: colors.accent }} />
               <h3 className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>
-                {type} Industry-Standard Metrics Reference
+                {type === "V2V" ? "STS" : type} Industry-Standard Metrics Reference
               </h3>
             </div>
             <div className="overflow-x-auto">

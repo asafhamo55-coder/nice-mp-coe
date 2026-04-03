@@ -43,7 +43,7 @@ const navigation = [
     children: [
       { name: "STT", href: "/benchmarks/stt", icon: Mic },
       { name: "TTS", href: "/benchmarks/tts", icon: Volume2 },
-      { name: "V2V", href: "/benchmarks/v2v", icon: AudioWaveform },
+      { name: "STS", href: "/benchmarks/v2v", icon: AudioWaveform },
       { name: "Standards", href: "/standards", icon: BookCheck },
     ],
   },

@@ -362,7 +362,7 @@ export default function VendorsPage() {
     { key: "all", label: "All Vendors", icon: <Building2    className="h-4 w-4" /> },
     { key: "STT", label: "STT",         icon: <Mic          className="h-4 w-4" />, count: vendors.filter((v) => v.products.some((p) => p.category === "STT")).length },
     { key: "TTS", label: "TTS",         icon: <Volume2      className="h-4 w-4" />, count: vendors.filter((v) => v.products.some((p) => p.category === "TTS")).length },
-    { key: "V2V", label: "V2V",         icon: <MessageSquare className="h-4 w-4" />, count: vendors.filter((v) => v.products.some((p) => p.category === "V2V")).length },
+    { key: "V2V", label: "STS",         icon: <MessageSquare className="h-4 w-4" />, count: vendors.filter((v) => v.products.some((p) => p.category === "V2V")).length },
   ];
 
   return (

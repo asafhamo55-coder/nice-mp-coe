@@ -10,7 +10,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "/vendors": "Vendors",
   "/benchmarks/stt": "STT Benchmarks",
   "/benchmarks/tts": "TTS Benchmarks",
-  "/benchmarks/v2v": "V2V Benchmarks",
+  "/benchmarks/v2v": "STS Benchmarks",
   "/news": "News Intelligence",
   "/evaluate": "Evaluations",
   "/datasets": "Datasets",

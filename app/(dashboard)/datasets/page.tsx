@@ -60,7 +60,7 @@ interface Dataset {
 const TYPE_META: Record<EvalType, { label: string; color: string; bg: string; border: string; icon: React.ReactNode }> = {
   STT: { label: "STT",  color: "#7c3aed", bg: "rgba(124,58,237,0.12)",  border: "rgba(124,58,237,0.3)",  icon: <Mic className="h-4 w-4" /> },
   TTS: { label: "TTS",  color: "#00d4e8", bg: "rgba(0,212,232,0.12)",   border: "rgba(0,212,232,0.3)",   icon: <Volume2 className="h-4 w-4" /> },
-  V2V: { label: "V2V",  color: "#10b981", bg: "rgba(16,185,129,0.12)",  border: "rgba(16,185,129,0.3)",  icon: <AudioWaveform className="h-4 w-4" /> },
+  V2V: { label: "STS",  color: "#10b981", bg: "rgba(16,185,129,0.12)",  border: "rgba(16,185,129,0.3)",  icon: <AudioWaveform className="h-4 w-4" /> },
 };
 
 const DIFF_COLOR: Record<string, string> = {
@@ -591,7 +591,7 @@ function NewDatasetModal({ onCreated, onClose }: { onCreated: (d: Dataset) => vo
               <select className={inputCls} style={inputStyle} value={type} onChange={(e) => setType(e.target.value as EvalType)}>
                 <option value="STT">STT – Speech to Text</option>
                 <option value="TTS">TTS – Text to Speech</option>
-                <option value="V2V">V2V – Voice to Voice</option>
+                <option value="V2V">STS – Speech to Speech</option>
               </select>
             </div>
             <div>
@@ -722,7 +722,7 @@ export default function DatasetsPage() {
           return (
             <button key={t} onClick={() => setTypeFilter(t)} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all" style={active ? { background: meta?.bg ?? "rgba(0,212,232,0.12)", color: meta?.color ?? "#00d4e8", border: `1px solid ${meta?.border ?? "rgba(0,212,232,0.3)"}` } : { color: "var(--muted-foreground)", background: "transparent", border: "1px solid transparent" }}>
               {meta && <span>{meta.icon}</span>}
-              {t}
+              {t === "V2V" ? "STS" : t}
               <span className="rounded-full px-1.5 py-0.5 text-xs" style={{ background: active ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)" }}>{count}</span>
             </button>
           );

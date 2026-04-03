@@ -4,7 +4,7 @@ export default function V2VBenchmarksPage() {
   return (
     <BenchmarkTable
       type="V2V"
-      title="V2V Benchmarks"
+      title="STS Benchmarks"
       description="Task completion, e2e latency, persona consistency and interruption handling rankings"
     />
   );
