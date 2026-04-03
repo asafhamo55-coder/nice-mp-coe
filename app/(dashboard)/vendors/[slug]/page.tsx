@@ -368,7 +368,7 @@ function OverviewTab({ vendor }: { vendor: VendorDetail }) {
                     </div>
                     {catStyle && (
                       <span className="mt-1.5 inline-block rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}>
-                        {p.category}
+                        {p.category === "V2V" ? "STS" : p.category}
                       </span>
                     )}
                     {p.description && <p className="mt-1.5 text-xs" style={{ color: "var(--muted-foreground)" }}>{p.description}</p>}
@@ -500,7 +500,7 @@ function BenchmarksTab({ vendor }: { vendor: VendorDetail }) {
                   <span style={{ color: catStyle?.color ?? "#00d4e8" }}>{model}</span>
                   {catStyle && (
                     <span className="rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}>
-                      {type}
+                      {type === "V2V" ? "STS" : type}
                     </span>
                   )}
                   <Badge variant="info" className="ml-auto text-xs">{benchmarks.length} metrics</Badge>
@@ -735,7 +735,7 @@ function IntegrationTab({ vendor }: { vendor: VendorDetail }) {
                     <span className="font-medium text-sm" style={{ color: "var(--foreground)" }}>{p.name}</span>
                     {catStyle && (
                       <span className="rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}>
-                        {p.category}
+                        {p.category === "V2V" ? "STS" : p.category}
                       </span>
                     )}
                   </div>
@@ -792,7 +792,7 @@ function EvaluationsTab({ vendor }: { vendor: VendorDetail }) {
                 <div className="flex items-center gap-3">
                   {catStyle && (
                     <span className="rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ background: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}>
-                      {ev.evaluationType}
+                      {ev.evaluationType === "V2V" ? "STS" : ev.evaluationType}
                     </span>
                   )}
                   <span className="font-medium text-sm" style={{ color: "var(--foreground)" }}>{ev.modelName}</span>
@@ -1206,7 +1206,7 @@ function DeploymentTab({ vendor }: { vendor: VendorDetail }) {
                 key={product.id}
                 vendorSlug={vendor.slug}
                 productSlug={product.slug}
-                productName={`${product.name}${product.version ? ` (${product.version})` : ""} · ${product.category}`}
+                productName={`${product.name}${product.version ? ` (${product.version})` : ""} · ${product.category === "V2V" ? "STS" : product.category}`}
                 guideline={guidelines.find((g) => g.productSlug === product.slug) ?? null}
                 onRefreshed={handleRefreshed}
               />

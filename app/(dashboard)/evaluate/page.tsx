@@ -94,7 +94,7 @@ function TypeBadge({ type }: { type: string }) {
       className="inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold"
       style={style}
     >
-      {type}
+      {type === "V2V" ? "STS" : type}
     </span>
   );
 }

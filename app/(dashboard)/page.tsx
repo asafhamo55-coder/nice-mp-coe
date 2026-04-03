@@ -101,7 +101,7 @@ const QUICK_LINKS = [
     badge: "Live",
   },
   {
-    title: "V2V Benchmarks",
+    title: "STS Benchmarks",
     desc: "Task completion, latency & persona consistency",
     href: "/benchmarks/v2v",
     icon: AudioWaveform,
@@ -139,7 +139,7 @@ const AGENTS: AgentDef[] = [
   {
     id: "vendor-scout",
     name: "Vendor Scout",
-    description: "Crawls the web for new STT/TTS/V2V vendors, enriches profiles, and updates the registry.",
+    description: "Crawls the web for new STT/TTS/STS vendors, enriches profiles, and updates the registry.",
     category: "Discovery",
     categoryColor: "#00d4e8",
     icon: Search,
@@ -407,7 +407,7 @@ export default function DashboardPage() {
             <span className="gradient-text">CoE</span>
           </h1>
           <p className="text-sm max-w-xl" style={{ color: "rgba(148,163,184,0.9)" }}>
-            AI-first Media Processing Center of Excellence. Evaluate STT, TTS & V2V vendors with autonomous AI agents, real-time benchmarking, and intelligent market intelligence.
+            AI-first Media Processing Center of Excellence. Evaluate STT, TTS & STS vendors with autonomous AI agents, real-time benchmarking, and intelligent market intelligence.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -570,7 +570,7 @@ export default function DashboardPage() {
                               {e.vendor.name}
                             </p>
                             <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
-                              {e.evaluationType} · {e.dataset}
+                              {e.evaluationType === "V2V" ? "STS" : e.evaluationType} · {e.dataset}
                             </p>
                           </div>
                         </div>
@@ -618,7 +618,7 @@ export default function DashboardPage() {
                           </span>
                         </p>
                         <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
-                          {b.benchmarkType} · {b.metricName}
+                          {b.benchmarkType === "V2V" ? "STS" : b.benchmarkType} · {b.metricName}
                         </p>
                       </div>
                       <div className="text-right">

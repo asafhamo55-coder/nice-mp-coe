@@ -123,7 +123,7 @@ function NewsCard({ item }: { item: NewsItem }) {
         <div className="flex items-center gap-2 flex-wrap">
           <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ background: catConfig.bg, color: catConfig.color, border: `1px solid ${catConfig.border}` }}>
             {catConfig.icon}
-            {item.category}
+            {item.category === "V2V" ? "STS" : item.category}
           </span>
           <span className="text-xs" style={{ color: "var(--muted-foreground)" }}>{relativeDate(item.date)}</span>
           <span className="ml-auto">
@@ -407,7 +407,7 @@ export default function NewsPage() {
               }
             >
               {catConf?.icon}
-              {cat}
+              {cat === "V2V" ? "STS" : cat}
             </button>
           );
         })}

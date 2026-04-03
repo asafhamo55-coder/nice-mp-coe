@@ -538,7 +538,7 @@ function CostCalculator({
     perUnitLabel = "per synthesis";
     monthlyCost = perUnitCost * volume;
   } else {
-    perUnitCost = (rates.perMinute ?? 0.025) * 3 + rates.perRequest; // ~3 min per V2V call
+    perUnitCost = (rates.perMinute ?? 0.025) * 3 + rates.perRequest; // ~3 min per STS call
     perUnitLabel = "per conversation";
     monthlyCost = perUnitCost * volume;
   }
@@ -851,7 +851,7 @@ export default function EvaluationDetailPage() {
                 const ts = typeColors[evaluation.evaluationType] ?? { color: "#94a3b8", bg: "rgba(148,163,184,0.15)", border: "rgba(148,163,184,0.3)" };
                 return (
                   <span className="rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ background: ts.bg, color: ts.color, border: `1px solid ${ts.border}` }}>
-                    {evaluation.evaluationType}
+                    {evaluation.evaluationType === "V2V" ? "STS" : evaluation.evaluationType}
                   </span>
                 );
               })()}

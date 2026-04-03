@@ -11,7 +11,7 @@ type TabType = "STT" | "TTS" | "V2V";
 const TABS: { key: TabType; label: string; icon: React.ReactNode; metrics: MetricDefinition[]; color: string }[] = [
   { key: "STT", label: "Speech-to-Text", icon: <Mic className="h-4 w-4" />, metrics: STT_METRICS, color: "#7c3aed" },
   { key: "TTS", label: "Text-to-Speech", icon: <Volume2 className="h-4 w-4" />, metrics: TTS_METRICS, color: "#00d4e8" },
-  { key: "V2V", label: "Voice-to-Voice", icon: <MessageSquare className="h-4 w-4" />, metrics: V2V_METRICS, color: "#10b981" },
+  { key: "V2V", label: "Speech-to-Speech", icon: <MessageSquare className="h-4 w-4" />, metrics: V2V_METRICS, color: "#10b981" },
 ];
 
 export default function StandardsPage() {
@@ -35,7 +35,7 @@ export default function StandardsPage() {
             </div>
           </div>
           <p className="text-sm max-w-xl" style={{ color: "rgba(148,163,184,0.9)" }}>
-            Comprehensive reference of speech technology metrics used for benchmarking and evaluation across STT, TTS, and V2V.
+            Comprehensive reference of speech technology metrics used for benchmarking and evaluation across STT, TTS, and STS.
           </p>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function StandardsPage() {
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-sm font-semibold">
             <Ruler className="h-4 w-4" style={{ color: currentTab.color }} />
-            {activeTab} Metrics Reference Table
+            {activeTab === "V2V" ? "STS" : activeTab} Metrics Reference Table
             <Badge variant="info" className="ml-auto text-xs">{currentTab.metrics.length} metrics</Badge>
           </CardTitle>
         </CardHeader>

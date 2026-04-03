@@ -48,8 +48,8 @@ const AGENTS = [
   {
     id: "evaluation-runner", name: "Evaluation Runner",
     icon: FlaskConical, color: "#fbbf24", model: "Claude Sonnet 4-6",
-    description: "Core evaluation engine testing STT/TTS/V2V models against 6 NICE proprietary datasets (150 total samples). Calls real vendor APIs when credentials are provided; falls back to Claude simulation.",
-    skills: ["STT Evaluation","TTS Evaluation","V2V Testing","WER/CER Calculation","Real API Dispatch","Simulation Mode"],
+    description: "Core evaluation engine testing STT/TTS/STS models against 6 NICE proprietary datasets (150 total samples). Calls real vendor APIs when credentials are provided; falls back to Claude simulation.",
+    skills: ["STT Evaluation","TTS Evaluation","STS Testing","WER/CER Calculation","Real API Dispatch","Simulation Mode"],
     reads: ["Vendor","EvaluationDataset"], writes: ["Evaluation","EvaluationResult"],
     sources: ["NICE-CX-Clean-EN (50)","NICE-CX-Noisy-EN (50)","NICE-TTS-IVR-EN (30)","NICE-TTS-Agent-EN (30)","NICE-V2V-Support-EN (10)","NICE-V2V-IVR-EN (10)"],
     outputs: ["EvaluationResult per sample","Comparison summaries"],
@@ -106,7 +106,7 @@ const DB_ENTITIES: { name: string; color: string; fields: { name: string; type: 
       { name: "id",           type: "uuid",   pk: true },
       { name: "vendorId",     type: "uuid",   fk: true },
       { name: "modelName",    type: "string" },
-      { name: "benchmarkType",type: "enum",   note: "STT|TTS|V2V" },
+      { name: "benchmarkType",type: "enum",   note: "STT|TTS|STS" },
       { name: "metricName",   type: "string" },
       { name: "metricValue",  type: "Decimal" },
       { name: "metricUnit",   type: "string" },
@@ -123,7 +123,7 @@ const DB_ENTITIES: { name: string; color: string; fields: { name: string; type: 
     fields: [
       { name: "id",               type: "uuid",   pk: true },
       { name: "vendorId",         type: "uuid",   fk: true },
-      { name: "evaluationType",   type: "enum",   note: "STT|TTS|V2V" },
+      { name: "evaluationType",   type: "enum",   note: "STT|TTS|STS" },
       { name: "modelName",        type: "string" },
       { name: "status",           type: "enum",   note: "Running|Completed|Failed" },
       { name: "config",           type: "Json",   note: "apiKey, endpointUrl, ..." },
@@ -145,7 +145,7 @@ const DB_ENTITIES: { name: string; color: string; fields: { name: string; type: 
       { name: "summary",      type: "string" },
       { name: "url",          type: "string" },
       { name: "source",       type: "string" },
-      { name: "category",     type: "string", note: "STT|TTS|V2V|Research" },
+      { name: "category",     type: "string", note: "STT|TTS|STS|Research" },
       { name: "relevance",    type: "int",    note: "1–10 score" },
       { name: "tags",         type: "Json",   note: "string[]" },
       { name: "publishedAt",  type: "DateTime?" },
@@ -540,7 +540,7 @@ export default function ArchitecturePage() {
           NICE MP CoE — Agentic Platform Architecture
         </h1>
         <p className="text-sm mb-7 max-w-2xl leading-relaxed" style={{ color: BODY }}>
-          AI-native platform for evaluating, benchmarking and researching Speech-to-Text, Text-to-Speech, and Voice-to-Voice technologies.
+          AI-native platform for evaluating, benchmarking and researching Speech-to-Text, Text-to-Speech, and Speech-to-Speech technologies.
           6 autonomous Claude agents, 30+ REST endpoints, a Prisma-managed PostgreSQL knowledge base, and real vendor API integration.
         </p>
         <div className="flex flex-wrap gap-3">
@@ -736,7 +736,7 @@ export default function ArchitecturePage() {
             { icon: Volume2,      label: "Text-to-Speech (TTS)", color: "#a78bfa",
               metrics: ["MOS Naturalness Score","Intelligibility Rating","TTFB / Streaming Latency","ELO Score (TTS Arena)","Prosody Quality"],
               datasets: [{ id: "NICE-TTS-IVR-EN", n: 30, desc: "IVR prompt scripts" }, { id: "NICE-TTS-Agent-EN", n: 30, desc: "Agent response scripts" }] },
-            { icon: AudioWaveform,label: "Voice-to-Voice (V2V)", color: "#fbbf24",
+            { icon: AudioWaveform,label: "Speech-to-Speech (STS)", color: "#fbbf24",
               metrics: ["Task Completion Rate","Turn-Taking Accuracy","Intent Recognition %","End-to-End Latency","Conversation Coherence"],
               datasets: [{ id: "NICE-V2V-Support-EN", n: 10, desc: "Multi-turn support scenarios" }, { id: "NICE-V2V-IVR-EN", n: 10, desc: "Conversational IVR scripts" }] },
           ].map(d => {

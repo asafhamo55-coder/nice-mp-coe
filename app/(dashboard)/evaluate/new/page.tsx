@@ -79,7 +79,7 @@ const TYPE_CONFIG: Record<EvalType, { label: string; desc: string; icon: React.R
     border: "rgba(0,212,232,0.35)",
   },
   V2V: {
-    label: "Voice-to-Voice",
+    label: "Speech-to-Speech",
     desc: "Evaluate conversational AI with task completion, latency, and naturalness.",
     icon: <MessageSquare className="h-7 w-7" />,
     samples: "10 conversation scripts",
@@ -330,7 +330,7 @@ export default function NewEvaluationPage() {
                       }}
                     >
                       <div style={{ color: active ? cfg.color : "var(--muted-foreground)" }}>{cfg.icon}</div>
-                      <div className="mt-3 text-lg font-bold" style={{ color: active ? cfg.color : "var(--foreground)" }}>{type}</div>
+                      <div className="mt-3 text-lg font-bold" style={{ color: active ? cfg.color : "var(--foreground)" }}>{type === "V2V" ? "STS" : type}</div>
                       <div className="text-sm font-medium" style={{ color: active ? cfg.color : "var(--foreground)" }}>{cfg.label}</div>
                       <p className="mt-2 text-xs" style={{ color: "var(--muted-foreground)" }}>{cfg.desc}</p>
                       <p className="mt-2 text-xs font-medium" style={{ color: active ? cfg.color : "var(--muted-foreground)", opacity: 0.8 }}>{cfg.samples}</p>
