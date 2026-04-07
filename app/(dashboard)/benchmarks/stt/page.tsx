@@ -401,27 +401,6 @@ const LANGUAGE_TIERS = [
   },
 ];
 
-function parsePercent(val: string): number | null {
-  if (val === "—" || val === "N/A" || val === "TBD") return null;
-  return parseFloat(val.replace("%", ""));
-}
-
-function lowerBetterColor(val: string): string {
-  const num = parsePercent(val);
-  if (num === null) return "var(--muted-foreground)";
-  if (num <= 10) return "#10b981";
-  if (num <= 20) return "#f59e0b";
-  return "#ef4444";
-}
-
-function higherBetterColor(val: string): string {
-  const num = parsePercent(val);
-  if (num === null) return "var(--muted-foreground)";
-  if (num >= 90) return "#10b981";
-  if (num >= 80) return "#f59e0b";
-  return "#ef4444";
-}
-
 function improvementColor(val: string): string {
   if (val === "TBD" || val === "—") return "var(--muted-foreground)";
   return "#10b981";
@@ -512,9 +491,9 @@ function V11DeepDiveTab() {
         <h2 className="text-base font-semibold mb-3" style={{ color: "var(--foreground)" }}>Operating Modes</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {[
-            { title: "Low-Latency Mode",    description: "Tuned for real-time voicebot interactions where response speed is critical",                                                                       latency: "Lowest",  latencyColor: "#10b981", cost: "Highest", costColor: "#ef4444", bestFor: "Voice-bot"                  },
-            { title: "Intermediate Mode",   description: "Standard real-time ASR for live agent-facing use cases where text must appear as the conversation happens",                                        latency: "Medium",  latencyColor: "#f59e0b", cost: "Medium",  costColor: "#f59e0b", bestFor: "Agent Copilot"              },
-            { title: "Most Efficient Mode", description: "Optimized for minimum compute with no real-time constraint. Ideal where cost efficiency matters more than speed",                                  latency: "Highest", latencyColor: "#ef4444", cost: "Lowest",  costColor: "#10b981", bestFor: "Post-Call QA & Analytics"  },
+            { title: "Low-Latency Mode",    description: "Tuned for real-time voicebot interactions where response speed is critical",                                                                       latency: "Lowest",  latencyColor: "#10b981", cost: "Highest", costColor: "#ef4444", bestFor: "Voice-bot",                 costPerHour: "$0.01239/call-hr", note: "Assumes processing of customer channel only, excluding the bot channel." },
+            { title: "Intermediate Mode",   description: "Standard real-time ASR for live agent-facing use cases where text must appear as the conversation happens",                                        latency: "Medium",  latencyColor: "#f59e0b", cost: "Medium",  costColor: "#f59e0b", bestFor: "Agent Copilot",             costPerHour: "$0.01062/call-hr", note: null },
+            { title: "Most Efficient Mode", description: "Optimized for minimum compute with no real-time constraint. Ideal where cost efficiency matters more than speed",                                  latency: "Highest", latencyColor: "#ef4444", cost: "Lowest",  costColor: "#10b981", bestFor: "Post-Call QA & Analytics", costPerHour: "$0.00249/call-hr", note: null },
           ].map((mode) => (
             <Card key={mode.title} className="glass-card border-0">
               <CardContent className="p-5 space-y-3">
@@ -524,20 +503,40 @@ function V11DeepDiveTab() {
                 </div>
                 <div className="space-y-2 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
                   {[
-                    { label: "Latency",  value: mode.latency,  color: mode.latencyColor          },
-                    { label: "Cost",     value: mode.cost,     color: mode.costColor             },
-                    { label: "Best For", value: mode.bestFor,  color: "var(--foreground)"        },
+                    { label: "Latency",              value: mode.latency,     color: mode.latencyColor,   tooltip: undefined },
+                    { label: "Cost",                 value: mode.cost,        color: mode.costColor,      tooltip: undefined },
+                    { label: "Est. Cost / Audio Hr", value: mode.costPerHour, color: "var(--foreground)", tooltip: "Compute cost per call-hour. Based on AWS instance cost divided by an efficiency factor (accounting for idle time), spread across stream capacity. Excludes fixed infrastructure costs." },
+                    { label: "Best For",             value: mode.bestFor,     color: "var(--foreground)", tooltip: undefined },
                   ].map((attr) => (
                     <div key={attr.label} className="flex items-center justify-between text-xs">
-                      <span style={{ color: "var(--muted-foreground)" }}>{attr.label}</span>
+                      <span className="inline-flex items-center gap-1" style={{ color: "var(--muted-foreground)" }}>
+                        {attr.label}
+                        {attr.tooltip && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="cursor-help" style={{ color: "var(--muted-foreground)" }} aria-label="More info">ⓘ</span>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs text-xs leading-relaxed">{attr.tooltip}</TooltipContent>
+                          </Tooltip>
+                        )}
+                      </span>
                       <span className="font-semibold" style={{ color: attr.color }}>{attr.value}</span>
                     </div>
                   ))}
                 </div>
+                {mode.note && (
+                  <p className="text-xs italic pt-1" style={{ color: "var(--muted-foreground)", borderTop: "1px solid var(--border)" }}>
+                    {mode.note}
+                  </p>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
+        {/* Cost caveat */}
+        <p className="mt-3 text-xs italic" style={{ color: "var(--muted-foreground)" }}>
+          * Estimated costs represent compute cost only and do not include fixed infrastructure costs.
+        </p>
       </div>
 
       {/* Section 4 — Accuracy Results by Mode */}
