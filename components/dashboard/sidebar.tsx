@@ -41,7 +41,9 @@ const navigation = [
     name: "Benchmarks",
     icon: BarChart3,
     children: [
-      { name: "STT", href: "/benchmarks/stt", icon: Mic },
+      { name: "STT", href: "/benchmarks/stt", icon: Mic, children: [
+        { name: "V11.4 vs Nova-3", href: "/benchmarks/stt/v11-vs-nova3", icon: BarChart3 },
+      ]},
       { name: "TTS", href: "/benchmarks/tts", icon: Volume2 },
       { name: "STS", href: "/benchmarks/v2v", icon: AudioWaveform },
       { name: "Standards", href: "/standards", icon: BookCheck },
@@ -164,7 +166,8 @@ export function Sidebar() {
         {navigation.map((item) => {
           if (item.children) {
             const isGroupActive = item.children.some((child) =>
-              pathname.startsWith(child.href)
+              pathname.startsWith(child.href) ||
+              ("children" in child && child.children?.some(sub => pathname.startsWith(sub.href)))
             );
             return (
               <div key={item.name} className="mb-1">
@@ -177,28 +180,59 @@ export function Sidebar() {
                 </div>
                 <div className="ml-3 mt-0.5 space-y-0.5 pl-4" style={{ borderLeft: "1px solid rgba(0,212,232,0.15)" }}>
                   {item.children.map((child) => {
-                    const active = pathname.startsWith(child.href);
+                    const subChildren = "children" in child ? child.children : undefined;
+                    // A child with sub-items is "active" only on an exact match so the
+                    // sub-item can also show its own active highlight.
+                    const active = subChildren
+                      ? pathname === child.href
+                      : pathname.startsWith(child.href);
                     return (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className={cn(
-                          "flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-all duration-150 group",
-                          active
-                            ? "font-semibold text-white"
-                            : "hover:text-white"
+                      <div key={child.href}>
+                        <Link
+                          href={child.href}
+                          className={cn(
+                            "flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-all duration-150 group",
+                            active ? "font-semibold text-white" : "hover:text-white"
+                          )}
+                          style={active
+                            ? { background: "rgba(0,212,232,0.12)", color: "#00d4e8" }
+                            : { color: "var(--sidebar-foreground)" }
+                          }
+                        >
+                          <span className="flex items-center gap-2">
+                            <child.icon className="h-3.5 w-3.5" />
+                            {child.name}
+                          </span>
+                          {active && <ChevronRight className="h-3 w-3" style={{ color: "#00d4e8" }} />}
+                        </Link>
+                        {subChildren && (
+                          <div className="ml-3 mt-0.5 space-y-0.5 pl-3" style={{ borderLeft: "1px solid rgba(0,212,232,0.1)" }}>
+                            {subChildren.map((sub) => {
+                              const subActive = pathname.startsWith(sub.href);
+                              return (
+                                <Link
+                                  key={sub.href}
+                                  href={sub.href}
+                                  className={cn(
+                                    "flex items-center justify-between rounded-lg px-3 py-1.5 text-xs transition-all duration-150 group",
+                                    subActive ? "font-semibold text-white" : "hover:text-white"
+                                  )}
+                                  style={subActive
+                                    ? { background: "rgba(0,212,232,0.10)", color: "#00d4e8" }
+                                    : { color: "var(--sidebar-foreground)" }
+                                  }
+                                >
+                                  <span className="flex items-center gap-2">
+                                    <sub.icon className="h-3 w-3" />
+                                    {sub.name}
+                                  </span>
+                                  {subActive && <ChevronRight className="h-3 w-3" style={{ color: "#00d4e8" }} />}
+                                </Link>
+                              );
+                            })}
+                          </div>
                         )}
-                        style={active
-                          ? { background: "rgba(0,212,232,0.12)", color: "#00d4e8" }
-                          : { color: "var(--sidebar-foreground)" }
-                        }
-                      >
-                        <span className="flex items-center gap-2">
-                          <child.icon className="h-3.5 w-3.5" />
-                          {child.name}
-                        </span>
-                        {active && <ChevronRight className="h-3 w-3" style={{ color: "#00d4e8" }} />}
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>
